@@ -17,6 +17,11 @@
     // Insert code here to initialize your application
     screen = [[ScreenView alloc] initWithFrame:NSMakeRect(0, 0, 320, 160)];
     [[_window contentView] addSubview:screen];
+    
+    c8 = [[Chip8 alloc] init];
+    [c8 setScr:screen];
+    [c8 loadROM:@"/Users/Nick/Desktop/PONG2"];
+    [c8 startTimer];
 }
 
 @end

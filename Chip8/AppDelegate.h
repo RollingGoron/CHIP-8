@@ -8,9 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 #import "ScreenView.h"
+#import "Chip8.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     ScreenView *screen;
+    Chip8 *c8;
 }
 
 @property (assign) IBOutlet NSWindow *window;

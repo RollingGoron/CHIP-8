@@ -11,9 +11,11 @@
 #import <OpenGL/gl.h>
 
 @interface ScreenView : NSOpenGLView {
-    
+    bool data[32*64];
+    NSTimer *drawTimer;
 }
 
 -(void)drawFrame;
+-(void)setData:(bool*)newData;
 
 @end
