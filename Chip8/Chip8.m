@@ -45,6 +45,7 @@
                 case 0x00EE:
                     SP++;
                     PC = stack[SP];
+                    PC += 2;
                     break;
                 default:
                     NSLog(@"Unknown Opcode: %x", opcode);
@@ -63,11 +64,24 @@
             PC = opcode & 0x0FFF;
             break;
         
+        //Skip next instruction if VX = NN (0x3XNN)
+        case 0x3000:
+            PC += 2;
+            if (V[(opcode & 0x0F00)>>8] == (opcode & 0x00FF))
+                PC += 2;
+            break;
+            
         //------
             
         //Set V[X] to NN (0x6XNN)
         case 0x6000:
             V[(opcode & 0x0F00)>>8] = opcode & 0x00FF;
+            PC += 2;
+            break;
+            
+        //Add NN to V[X] (0x7XNN)
+        case 0x7000:
+            V[(opcode & 0x0F00)>>8] += (opcode & 0x00FF);
             PC += 2;
             break;
             
@@ -83,10 +97,13 @@
             unsigned int spriteY = V[(opcode & 0x00F0) >> 4];
             unsigned int spriteH = opcode & 0x000F;
             
+            V[0xF] = 0;
             for (int y = 0; y < spriteH; y++) {
                 unsigned char byte = memory[I + y];
                 for (int x = 0; x < 8; x++) {
                     if ((byte & (0x80 >> x)) != 0) {
+                        if (screen[spriteX + x + (spriteY + y)*64])
+                            V[0xF] = 1;
                         screen[spriteX + x + (spriteY + y)*64] ^= 1;
                     }
                 }
