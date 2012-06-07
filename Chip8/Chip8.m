@@ -71,7 +71,19 @@
                 PC += 2;
             break;
             
-        //------
+        //Skip next instruction if VX != NN (0x4XNN)
+        case 0x4000:
+            PC += 2;
+            if (V[(opcode & 0x0F00)>>8] != (opcode & 0x00FF))
+                PC += 2;
+            break;
+            
+        //Skip the next instruction if VX = VY (0x5XY0)
+        case 0x5000:
+            PC += 2;
+            if (V[(opcode & 0x0F00)>>8] == V[(opcode & 0x00F0)>>4])
+                PC += 2;            
+            break;
             
         //Set V[X] to NN (0x6XNN)
         case 0x6000:
@@ -85,11 +97,32 @@
             PC += 2;
             break;
             
+        case 0x8000: {
+            switch (opcode & 0x000F) {
+                //Set V[X] to V[Y] (0x8XY0)
+                case 0x0000:
+                    V[(opcode & 0x0F00)>>8] = V[(opcode & 0x00F0)>>4];
+                    PC += 2;
+                    break;
+                default:
+                    NSLog(@"Unknown Opcode: %x", opcode);
+                    break;
+            }
+            break;
+        }
+            
         //Set I to NNN (0xANNN)
         case 0xA000:
             I = opcode & 0x0FFF;
             PC += 2;
             break;
+        
+        //Jump to address NNN + V[0] (0xBNNN)
+        case 0xB000:
+            PC = (opcode & 0x0FFF) + V[0];
+            break;
+            
+        //
             
         //Draw sprite at VX, VY with height N (0xDXYN)
         case 0xD000: {
@@ -113,14 +146,69 @@
             
             break;
         }
+            
+        case 0xE000: {
+            switch (opcode & 0x00FF) {
+                //Skip next instruction if key in V[X] isn't pressed (0xEXA1)
+                case 0x00A1:
+                    //NSLog(@"No keypresses ATM");
+                    PC += 4;
+                    break;
+                    
+                default:
+                    NSLog(@"Unknown Opcode: %x", opcode);
+                    break;
+            }
+            break;
+        }
+            
+        case 0xF000: {
+            switch (opcode & 0x00FF) {
+                //Set VX to value of delay timer.
+                case 0x0007:
+                    V[(opcode & 0x0F00)>>8] = delay_timer;
+                    PC += 2;
+                    break;
+                //Set delay timer to V[X]
+                case 0x0015:
+                    delay_timer = V[(opcode & 0x0F00)>>8];
+                    PC += 2;
+                    break;
+                //Add V[X] to I (0xFX1E)
+                case 0x001E:
+                    I += V[(opcode & 0x0F00)>>8];
+                    PC += 2;
+                    break;
+                case 0x0065: {
+                    unsigned int len = (opcode & 0x0F00)>>8;
+                    memcpy(V, &memory[I], len + 1);
+                    PC += 2;
+                    break;
+                }
+                    
+                default:
+                    NSLog(@"Unknown Opcode: %x", opcode);
+                    break;
+            }
+            break;
+        }
+            
         default:
             NSLog(@"Unknown Opcode: %x", opcode);
             break;
     }
 }
 
+-(void)updateTimers {
+    if (delay_timer > 0)
+        delay_timer--;
+    if (sound_timer > 0)
+        sound_timer--;
+}
+
 -(void)startTimer {
     cpuTimer = [NSTimer scheduledTimerWithTimeInterval:0.0f target:self selector:@selector(cycle) userInfo:nil repeats:YES];
+    funcTimers = [NSTimer scheduledTimerWithTimeInterval:1/60.0f target:self selector:@selector(updateTimers) userInfo:nil repeats:YES]; 
 }
 
 -(void)stopTimer {

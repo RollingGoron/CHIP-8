@@ -20,6 +20,9 @@
     ScreenView *scr;
     
     NSTimer *cpuTimer;
+    NSTimer *funcTimers;
+    
+    unsigned int delay_timer, sound_timer;
 }
 
 @property (nonatomic, retain) ScreenView *scr;
@@ -30,5 +33,7 @@
 
 -(void)startTimer;
 -(void)stopTimer;
+
+-(void)updateTimers;
 
 @end

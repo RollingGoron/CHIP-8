@@ -20,7 +20,7 @@
     
     c8 = [[Chip8 alloc] init];
     [c8 setScr:screen];
-    [c8 loadROM:@"/Users/Nick/Desktop/PONG2"];
+    [c8 loadROM:@"/Users/Nick/Desktop/INVADERS"];
     [c8 startTimer];
 }
 
