@@ -33,12 +33,73 @@
     }
     unsigned int opcode = (memory[PC]<<8)+memory[PC+1];
     switch (opcode & 0xF000) {
-            default:
+        case 0x0000: {
+            switch (opcode) {
+                //Clear the screen
+                case 0x00E0:
+                    memset(screen, 0, 32*64);
+                    [scr setData:screen];
+                    PC += 2;
+                    break;
+                //Return from a subroutine
+                case 0x00EE:
+                    SP++;
+                    PC = stack[SP];
+                    break;
+                default:
+                    NSLog(@"Unknown Opcode: %x", opcode);
+                    break;
+            }
+            break;
+        }
+        //Jump to address (0x1NNN)
+        case 0x1000:
+            PC = opcode & 0x0FFF;
+            break;
+        //Call subroutine (0x2NNN)
+        case 0x2000:
+            stack[SP] = PC;
+            SP--;
+            PC = opcode & 0x0FFF;
+            break;
+        
+        //------
+            
+        //Set V[X] to NN (0x6XNN)
+        case 0x6000:
+            V[(opcode & 0x0F00)>>8] = opcode & 0x00FF;
+            PC += 2;
+            break;
+            
+        //Set I to NNN (0xANNN)
+        case 0xA000:
+            I = opcode & 0x0FFF;
+            PC += 2;
+            break;
+            
+        //Draw sprite at VX, VY with height N (0xDXYN)
+        case 0xD000: {
+            unsigned int spriteX = V[(opcode & 0x0F00) >> 8];
+            unsigned int spriteY = V[(opcode & 0x00F0) >> 4];
+            unsigned int spriteH = opcode & 0x000F;
+            
+            for (int y = 0; y < spriteH; y++) {
+                unsigned char byte = memory[I + y];
+                for (int x = 0; x < 8; x++) {
+                    if ((byte & (0x80 >> x)) != 0) {
+                        screen[spriteX + x + (spriteY + y)*64] ^= 1;
+                    }
+                }
+            }
+            [scr setData:screen];
+            PC += 2;
+            
+            break;
+        }
+        default:
             NSLog(@"Unknown Opcode: %x", opcode);
             break;
     }
-    //Update the screen
-    [scr setData:screen];
 }
 
 -(void)startTimer {
