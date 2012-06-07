@@ -17,6 +17,9 @@
 		01F732BF158050790011DDB1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F7329F158050770011DDB1 /* Cocoa.framework */; };
 		01F732C71580507A0011DDB1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 01F732C51580507A0011DDB1 /* InfoPlist.strings */; };
 		01F732CA1580507A0011DDB1 /* Chip8Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F732C91580507A0011DDB1 /* Chip8Tests.m */; };
+		01F732D9158056D50011DDB1 /* Chip8.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F732D8158056D50011DDB1 /* Chip8.m */; };
+		01F732DD15805A450011DDB1 /* ScreenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F732DC15805A450011DDB1 /* ScreenView.m */; };
+		01F732DF15805C800011DDB1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F732DE15805C800011DDB1 /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,11 @@
 		01F732C61580507A0011DDB1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		01F732C81580507A0011DDB1 /* Chip8Tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Chip8Tests.h; sourceTree = "<group>"; };
 		01F732C91580507A0011DDB1 /* Chip8Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Chip8Tests.m; sourceTree = "<group>"; };
+		01F732D7158056D50011DDB1 /* Chip8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chip8.h; sourceTree = "<group>"; };
+		01F732D8158056D50011DDB1 /* Chip8.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chip8.m; sourceTree = "<group>"; };
+		01F732DB15805A450011DDB1 /* ScreenView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenView.h; sourceTree = "<group>"; };
+		01F732DC15805A450011DDB1 /* ScreenView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenView.m; sourceTree = "<group>"; };
+		01F732DE15805C800011DDB1 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01F732DF15805C800011DDB1 /* OpenGL.framework in Frameworks */,
 				01F732A0158050770011DDB1 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,6 +84,7 @@
 		01F73290158050770011DDB1 = {
 			isa = PBXGroup;
 			children = (
+				01F732DE15805C800011DDB1 /* OpenGL.framework */,
 				01F732A5158050770011DDB1 /* Chip8 */,
 				01F732C21580507A0011DDB1 /* Chip8Tests */,
 				01F7329E158050770011DDB1 /* Frameworks */,
@@ -116,8 +126,12 @@
 			children = (
 				01F732B1158050780011DDB1 /* AppDelegate.h */,
 				01F732B2158050780011DDB1 /* AppDelegate.m */,
+				01F732D7158056D50011DDB1 /* Chip8.h */,
+				01F732D8158056D50011DDB1 /* Chip8.m */,
 				01F732B4158050790011DDB1 /* MainMenu.xib */,
 				01F732A6158050770011DDB1 /* Supporting Files */,
+				01F732DB15805A450011DDB1 /* ScreenView.h */,
+				01F732DC15805A450011DDB1 /* ScreenView.m */,
 			);
 			path = Chip8;
 			sourceTree = "<group>";
@@ -262,6 +276,8 @@
 			files = (
 				01F732AC158050780011DDB1 /* main.m in Sources */,
 				01F732B3158050780011DDB1 /* AppDelegate.m in Sources */,
+				01F732D9158056D50011DDB1 /* Chip8.m in Sources */,
+				01F732DD15805A450011DDB1 /* ScreenView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +451,7 @@
 				01F732CF1580507A0011DDB1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		01F732D01580507A0011DDB1 /* Build configuration list for PBXNativeTarget "Chip8Tests" */ = {
 			isa = XCConfigurationList;
@@ -443,6 +460,7 @@
 				01F732D21580507A0011DDB1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
