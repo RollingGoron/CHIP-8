@@ -12,10 +12,14 @@
 
 @interface ScreenView : NSOpenGLView {
     bool data[32*64];
+    bool keys[16];
     NSTimer *drawTimer;
 }
 
++(ScreenView*)sharedScreen;
+
 -(void)drawFrame;
 -(void)setData:(bool*)newData;
+-(BOOL)getKey:(int)kIndex;
 
 @end
