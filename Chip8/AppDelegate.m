@@ -18,7 +18,7 @@
     [[_window contentView] addSubview:[ScreenView sharedScreen]];
     
     c8 = [[Chip8 alloc] init];
-    [c8 loadROM:@"/Users/Nick/Desktop/INVADERS"];
+    [c8 loadROM:@"/Users/Nick/Desktop/BLINKY"];
     [c8 startTimer];
     [[ScreenView sharedScreen] becomeFirstResponder];
 }

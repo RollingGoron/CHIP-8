@@ -255,6 +255,15 @@ unsigned char font[80] = {
                     memory[I+2] = (V[(opcode&0x0F00)>>8]%100)%10;
                     PC += 2;
                     break;
+                //Store V[0] to V[X] in mem starting a (I)
+                case 0x0055: {
+                    unsigned int len = (opcode & 0x0F00)>>8;
+                    for (int a = 0; a < len; a++) {
+                        memory[I+a] = V[a];
+                    }
+                    PC += 2;
+                    break;
+                }
                 //Fill V[0] to V[X] with mem vals starting at (I) (0xFX65)
                 case 0x0065: {
                     unsigned int len = (opcode & 0x0F00)>>8;
